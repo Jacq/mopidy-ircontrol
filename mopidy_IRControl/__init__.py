@@ -23,6 +23,8 @@ class Extension(ext.Extension):
         schema['next'] = config.String()
         schema['previous'] = config.String()
         schema['playpause'] = config.String()
+        schema['play'] = config.String()
+        schema['pause'] = config.String()
         schema['stop'] = config.String()
         schema['volumeup'] = config.String()
         schema['volumedown'] = config.String()

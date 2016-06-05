@@ -32,6 +32,8 @@ class CommandDispatcher(object):
         self.config = config
         self._handlers = {}
         self.registerHandler('playpause', self._playpauseHandler)
+        self.registerHandler('play', self._playHandler)
+        self.registerHandler('pause', self._pauseHandler)
         self.registerHandler('mute', self._muteHandler)
         self.registerHandler('stop', lambda: self.core.playback.stop().get())
         self.registerHandler('next', lambda: self.core.playback.next().get())
@@ -65,6 +67,16 @@ class CommandDispatcher(object):
             self.core.playback.pause().get()
         elif (state == PlaybackState.STOPPED):
             self.core.playback.play().get()
+
+    def _playHandler(self):
+        state = self.core.playback.get_state().get()
+        if(state == PlaybackState.PAUSED):
+            self.core.playback.resume().get()
+        elif (state == PlaybackState.STOPPED):
+            self.core.playback.play().get()
+
+    def _pauseHandler(self):
+        self.core.playback.pause().get()
 
     def _muteHandler(self):
         self.core.mixer.set_mute(not self.core.mixer.get_mute().get())
